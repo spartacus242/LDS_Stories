@@ -24,6 +24,40 @@ NON_PHOTO_OR_AI_MARKERS = {
     "cartoon",
 }
 
+CATEGORY_FALLBACK_QUERIES = {
+    "prophetic_signal": [
+        "world events photograph",
+        "humanitarian aid photograph",
+        "city skyline photograph",
+    ],
+    "authority_commonality": [
+        "church congregation photograph",
+        "family scripture study photograph",
+        "christian worship photograph",
+    ],
+    "life_application": [
+        "family prayer photograph",
+        "community service photograph",
+        "scripture reading photograph",
+    ],
+    "preparation": [
+        "emergency preparedness kit photograph",
+        "family planning photograph",
+        "food storage photograph",
+    ],
+    "faith_evidence": [
+        "sunrise landscape photograph",
+        "hands praying photograph",
+        "christian faith photograph",
+    ],
+}
+
+GENERIC_FALLBACK_QUERIES = [
+    "religious community photograph",
+    "temple exterior photograph",
+    "humanitarian service photograph",
+]
+
 
 class WikimediaImageFinder:
     """Finds likely non-AI images using Wikimedia Commons metadata."""
@@ -38,13 +72,21 @@ class WikimediaImageFinder:
     def assign_images(self, insights: list[Insight]) -> list[str]:
         warnings: list[str] = []
         for insight in insights:
-            query = self._build_query(insight)
-            asset = self.find_best_image(query=query)
-            if asset:
-                insight.image = asset
-            else:
+            attempted_queries = self._candidate_queries(insight)
+            for query in attempted_queries:
+                try:
+                    asset = self.find_best_image(query=query)
+                except Exception as exc:  # noqa: BLE001
+                    warnings.append(
+                        f"{insight.headline}: image query '{query}' failed ({exc})"
+                    )
+                    asset = None
+                if asset:
+                    insight.image = asset
+                    break
+            if not insight.image:
                 warnings.append(
-                    f"{insight.headline}: no qualifying Wikimedia image found for query '{query}'"
+                    f"{insight.headline}: no qualifying Wikimedia image found after queries {attempted_queries}"
                 )
         return warnings
 
@@ -120,7 +162,21 @@ class WikimediaImageFinder:
         terms = insight.key_terms[:4]
         if not terms:
             terms = [insight.category]
-        return " ".join(terms)
+        return " ".join(terms) + " photograph"
+
+    def _candidate_queries(self, insight: Insight) -> list[str]:
+        queries = [self._build_query(insight)]
+        queries.extend(CATEGORY_FALLBACK_QUERIES.get(insight.category, []))
+        queries.extend(GENERIC_FALLBACK_QUERIES)
+        deduped: list[str] = []
+        seen = set()
+        for query in queries:
+            marker = query.lower().strip()
+            if marker in seen:
+                continue
+            seen.add(marker)
+            deduped.append(query)
+        return deduped
 
     def close(self) -> None:
         self.session.close()
