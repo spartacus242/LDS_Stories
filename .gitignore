@@ -6,3 +6,5 @@ venv/
 .DS_Store
 output/*.json
 output/*.md
+output/instagram_*/
+output/**/*.txt

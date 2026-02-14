@@ -23,7 +23,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--output-dir",
         default="output",
-        help="Directory where JSON and Markdown outputs are written.",
+        help="Directory where JSON, Markdown, and Instagram export outputs are written.",
     )
     parser.add_argument(
         "--max-insights",

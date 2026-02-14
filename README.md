@@ -65,6 +65,19 @@ Skip image lookup if desired:
 python -m story_agent --config config/sources.example.yaml --no-images
 ```
 
+## Instagram export bundle
+
+Each run now also writes a social-ready export bundle:
+
+- `output/instagram_<timestamp>/captions/*.txt`
+  - one caption file per card
+  - includes action step, confidence/uncertainty, source list, and hashtag block
+- `output/instagram_<timestamp>/scheduler_square_cards.json`
+  - square-card scheduling template (`1080x1080`, `1:1`)
+  - references caption file, image metadata, citations, and publish order
+- `output/instagram_<timestamp>/hashtags_bank.txt`
+  - de-duplicated hashtag bank from all generated cards
+
 ## Configure sources
 
 Edit `config/sources.example.yaml`:
