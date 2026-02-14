@@ -94,6 +94,14 @@ COMMONALITY_STOPWORDS = {
     "also",
     "jesus",
     "christ",
+    "his",
+    "her",
+    "their",
+    "things",
+    "thing",
+    "lives",
+    "live",
+    "life",
 }
 
 UNSUITABLE_EVENT_TERMS = {
@@ -106,6 +114,27 @@ UNSUITABLE_EVENT_TERMS = {
     "execution",
     "kidnap",
     "abuse",
+}
+
+GENERIC_OVERLAP_TERMS = {
+    "people",
+    "world",
+    "earth",
+    "time",
+    "times",
+    "day",
+    "days",
+    "year",
+    "years",
+    "state",
+    "states",
+}
+
+EVENT_SOURCE_PRIORITY = {
+    "societal_trend": 0,
+    "tech_advance": 1,
+    "historical_world_event": 2,
+    "current_event": 3,
 }
 
 
@@ -164,12 +193,13 @@ class InsightBuilder:
                 doctrine_terms = set(extract_keywords(doctrine_sentence, limit=8))
                 if not doctrine_terms.intersection(PROPHECY_TERMS):
                     continue
-                for event_doc in event_docs:
+                for event_doc in self._prioritize_event_docs(event_docs):
                     for event_sentence in split_sentences(event_doc.content):
                         event_terms = set(extract_keywords(event_sentence, limit=10))
                         if not event_terms.intersection(EVENT_TERMS):
                             continue
                         overlap = doctrine_terms.intersection(event_terms)
+                        overlap = {term for term in overlap if term not in GENERIC_OVERLAP_TERMS}
                         if len(overlap) < 1:
                             continue
                         score = len(overlap)
@@ -242,6 +272,7 @@ class InsightBuilder:
                 term_to_docs[term].add(doc.doc_id)
 
         shared = [(term, len(doc_ids)) for term, doc_ids in term_to_docs.items() if len(doc_ids) >= 2]
+        shared = [pair for pair in shared if len(pair[0]) >= 5]
         if not shared:
             return []
 
@@ -300,7 +331,7 @@ class InsightBuilder:
         context_terms = extract_keywords(candidate_sentence, limit=6)
         event_sentence = ""
         event_doc_ref: Document | None = None
-        for doc in event_docs:
+        for doc in self._prioritize_event_docs(event_docs):
             sentence = self._best_sentence_for_terms(
                 doc,
                 context_terms,
@@ -350,7 +381,7 @@ class InsightBuilder:
         doctrine_doc, doctrine_sentence = prep_sentences[0]
         event_sentence = ""
         event_doc_ref: Document | None = None
-        for doc in event_docs:
+        for doc in self._prioritize_event_docs(event_docs):
             sentence = self._best_sentence_for_terms(
                 doc,
                 extract_keywords(doctrine_sentence, limit=8),
@@ -404,7 +435,7 @@ class InsightBuilder:
 
         supporting_event_quote = ""
         supporting_event_doc: Document | None = None
-        for doc in event_docs:
+        for doc in self._prioritize_event_docs(event_docs):
             sentence = self._best_sentence_for_terms(
                 doc,
                 extract_keywords(testimony_quote, limit=8),
@@ -466,4 +497,11 @@ class InsightBuilder:
             url=doc.url,
             quote=trim_to_word_count(quote, 45),
             verification=result.confidence_label,
+        )
+
+    @staticmethod
+    def _prioritize_event_docs(event_docs: list[Document]) -> list[Document]:
+        return sorted(
+            event_docs,
+            key=lambda doc: EVENT_SOURCE_PRIORITY.get(doc.source_type, 99),
         )

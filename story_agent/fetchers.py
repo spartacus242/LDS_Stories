@@ -105,14 +105,14 @@ class URLDocumentFetcher:
 
     @staticmethod
     def _decode_response_text(response: requests.Response) -> str:
-        if response.encoding:
-            try:
-                return response.content.decode(response.encoding, errors="replace")
-            except LookupError:
-                pass
         if response.apparent_encoding:
             try:
                 return response.content.decode(response.apparent_encoding, errors="replace")
+            except LookupError:
+                pass
+        if response.encoding:
+            try:
+                return response.content.decode(response.encoding, errors="replace")
             except LookupError:
                 pass
         return response.content.decode("utf-8", errors="replace")
