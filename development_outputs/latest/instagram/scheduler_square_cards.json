@@ -1,0 +1,174 @@
+{
+  "exported_at": "2026-02-14T02:37:12.484777+00:00",
+  "platform": "instagram",
+  "template": "square_card_v1",
+  "card_count": 3,
+  "cards": [
+    {
+      "post_id": "latest-20260214T023712Z-01",
+      "publish_order": 1,
+      "channel": "instagram",
+      "post_type": "feed_square",
+      "aspect_ratio": "1:1",
+      "canvas": {
+        "width": 1080,
+        "height": 1080
+      },
+      "headline_text": "Prophetic Pattern Watch: Themes Now in the Headlines",
+      "body_text": "A doctrinal warning and a current event source share themes around voice. This can be a useful study signal, but it is not conclusive on its own.",
+      "cta_text": "Study the cited warning in context, then pray about your personal preparation.",
+      "confidence": "medium",
+      "uncertainty_note": "This indicates possible alignment in themes, not proof of a fulfilled prophecy.",
+      "caption_file": "development_outputs/latest/instagram/captions/01_prophetic-pattern-watch-themes-now-in-the-headlines.txt",
+      "hashtags": [
+        "ldsstudy",
+        "churchofjesuschrist",
+        "scripturestudy",
+        "comefollowme",
+        "christcentered",
+        "dailyfaith",
+        "gospelinsights",
+        "prophecywatch",
+        "signsofthetimes",
+        "spiritualdiscernment",
+        "voice"
+      ],
+      "image": {
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/d/df/Walt_Disney_1946.JPG",
+        "page_url": "https://commons.wikimedia.org/wiki/File:Walt_Disney_1946.JPG",
+        "attribution": "Boy Scouts of America",
+        "license_name": "Public domain",
+        "is_probably_non_ai": true
+      },
+      "citations": [
+        {
+          "title": "Doctrine and Covenants 1",
+          "url": "https://www.churchofjesuschrist.org/study/scriptures/dc-testament/dc/1?lang=eng",
+          "verification": "high",
+          "quote": "4 And the voice of warning shall be unto all people, by the mouths of my disciples, whom I have chosen in these last days ."
+        },
+        {
+          "title": "Artificial intelligence - Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Artificial_intelligence",
+          "verification": "high",
+          "quote": "Face and voice recognition allow widespread surveillance ."
+        }
+      ]
+    },
+    {
+      "post_id": "latest-20260214T023712Z-02",
+      "publish_order": 2,
+      "channel": "instagram",
+      "post_type": "feed_square",
+      "aspect_ratio": "1:1",
+      "canvas": {
+        "width": 1080,
+        "height": 1080
+      },
+      "headline_text": "Shared Message from Apostolic Voices: Eternal, Father, Savior",
+      "body_text": "Across recent talks from the First Presidency and/or Quorum of the Twelve, the strongest repeated themes include eternal, father, savior.",
+      "cta_text": "Pick one shared theme and turn it into a family or personal goal this week.",
+      "confidence": "medium",
+      "uncertainty_note": "Theme overlap is heuristic and may miss nuance; read full talks for context.",
+      "caption_file": "development_outputs/latest/instagram/captions/02_shared-message-from-apostolic-voices-eternal-father-savior.txt",
+      "hashtags": [
+        "ldsstudy",
+        "churchofjesuschrist",
+        "scripturestudy",
+        "comefollowme",
+        "christcentered",
+        "dailyfaith",
+        "gospelinsights",
+        "apostolicteachings",
+        "firstpresidency",
+        "quorumofthetwelve",
+        "eternal",
+        "father",
+        "savior"
+      ],
+      "image": {
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/f/fa/Ruabon_Congregation_Church_-_geograph.org.uk_-_730389.jpg",
+        "page_url": "https://commons.wikimedia.org/wiki/File:Ruabon_Congregation_Church_-_geograph.org.uk_-_730389.jpg",
+        "attribution": "Eirian Evans",
+        "license_name": "CC BY-SA 2.0",
+        "is_probably_non_ai": true
+      },
+      "citations": [
+        {
+          "title": "Think Celestial!",
+          "url": "https://www.churchofjesuschrist.org/study/general-conference/2023/10/51nelson?lang=eng",
+          "verification": "high",
+          "quote": "I have learned that Heavenly Father\u2019s plan for us is fabulous , that what we do in this life really matters, and that the Savior\u2019s Atonement is what makes our Father\u2019s plan possible."
+        },
+        {
+          "title": "We Will Prove Them Herewith",
+          "url": "https://www.churchofjesuschrist.org/study/general-conference/2020/10/12bednar?lang=eng",
+          "verification": "high",
+          "quote": "I promise that as we both prepare and press forward with faith in the Savior, we all can receive the same grade on the ultimate examination of mortality: \u201cWell done, thou good and faithful servant: thou hast been faithful over a few things, I will..."
+        },
+        {
+          "title": "Love Your Enemies",
+          "url": "https://www.churchofjesuschrist.org/study/general-conference/2020/10/17oaks?lang=eng",
+          "verification": "high",
+          "quote": "Fortunately, we have the Savior\u2019s own example of how to balance His eternal laws with the practicalities of man-made laws."
+        }
+      ]
+    },
+    {
+      "post_id": "latest-20260214T023712Z-03",
+      "publish_order": 3,
+      "channel": "instagram",
+      "post_type": "feed_square",
+      "aspect_ratio": "1:1",
+      "canvas": {
+        "width": 1080,
+        "height": 1080
+      },
+      "headline_text": "From Teaching to Tuesday: One Action You Can Take Today",
+      "body_text": "A repeated doctrinal pattern points to practical discipleship: I pray that the Spirit will carry my message into your hearts today.",
+      "cta_text": "Set aside 10 minutes daily for prayer with a specific question in mind.",
+      "confidence": "medium",
+      "uncertainty_note": "Application guidance is a suggested interpretation and should be personalized.",
+      "caption_file": "development_outputs/latest/instagram/captions/03_from-teaching-to-tuesday-one-action-you-can-take-today.txt",
+      "hashtags": [
+        "ldsstudy",
+        "churchofjesuschrist",
+        "scripturestudy",
+        "comefollowme",
+        "christcentered",
+        "dailyfaith",
+        "gospelinsights",
+        "dailydiscipleship",
+        "faithinaction",
+        "covenantliving",
+        "pray",
+        "spirit",
+        "carry",
+        "message",
+        "into",
+        "hearts"
+      ],
+      "image": {
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/3/38/Candlelight_Prayer_Ritual%2C_edited.jpg",
+        "page_url": "https://commons.wikimedia.org/wiki/File:Candlelight_Prayer_Ritual,_edited.jpg",
+        "attribution": "Muhammad Amdad Hossain , edited by W.carter",
+        "license_name": "CC BY-SA 4.0",
+        "is_probably_non_ai": true
+      },
+      "citations": [
+        {
+          "title": "Think Celestial!",
+          "url": "https://www.churchofjesuschrist.org/study/general-conference/2023/10/51nelson?lang=eng",
+          "verification": "high",
+          "quote": "I pray that the Spirit will carry my message into your hearts today."
+        },
+        {
+          "title": "Artificial intelligence - Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Artificial_intelligence",
+          "verification": "high",
+          "quote": "However, many AI applications are not perceived as AI: \"A lot of cutting edge AI has filtered into general applications, often without being called AI because once something becomes useful enough and common enough it's not labeled AI anymore .\" [ 2 ] [ 3..."
+        }
+      ]
+    }
+  ]
+}
