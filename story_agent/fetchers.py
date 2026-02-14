@@ -69,7 +69,7 @@ class URLDocumentFetcher:
 
     def _build_document(self, source: SourceSpec, response: requests.Response) -> Document:
         content_type = response.headers.get("Content-Type", "").lower()
-        raw_text = response.text or ""
+        raw_text = self._decode_response_text(response)
         title: str | None = None
         published_at = self._parse_datetime(source.published_hint)
 
@@ -102,6 +102,20 @@ class URLDocumentFetcher:
             published_at=published_at,
             fetched_at=datetime.now(timezone.utc),
         )
+
+    @staticmethod
+    def _decode_response_text(response: requests.Response) -> str:
+        if response.encoding:
+            try:
+                return response.content.decode(response.encoding, errors="replace")
+            except LookupError:
+                pass
+        if response.apparent_encoding:
+            try:
+                return response.content.decode(response.apparent_encoding, errors="replace")
+            except LookupError:
+                pass
+        return response.content.decode("utf-8", errors="replace")
 
     @staticmethod
     def _extract_title(soup: BeautifulSoup) -> str | None:

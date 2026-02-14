@@ -77,6 +77,37 @@ EVENT_TYPES = {
     "tech_advance",
 }
 
+COMMONALITY_STOPWORDS = {
+    "lord",
+    "god",
+    "all",
+    "one",
+    "shall",
+    "unto",
+    "will",
+    "can",
+    "may",
+    "thee",
+    "thou",
+    "thy",
+    "ye",
+    "also",
+    "jesus",
+    "christ",
+}
+
+UNSUITABLE_EVENT_TERMS = {
+    "epstein",
+    "sexual",
+    "assault",
+    "porn",
+    "murder",
+    "homicide",
+    "execution",
+    "kidnap",
+    "abuse",
+}
+
 
 @dataclass(slots=True)
 class InsightBuilder:
@@ -139,7 +170,7 @@ class InsightBuilder:
                         if not event_terms.intersection(EVENT_TERMS):
                             continue
                         overlap = doctrine_terms.intersection(event_terms)
-                        if len(overlap) < 2:
+                        if len(overlap) < 1:
                             continue
                         score = len(overlap)
                         if not best_candidate or score > best_candidate[0]:
@@ -155,7 +186,11 @@ class InsightBuilder:
             return []
 
         _, overlap_text, doctrine_doc, doctrine_quote, event_doc = best_candidate
-        event_quote = self._best_sentence_for_terms(event_doc, overlap_text.split(", "))
+        event_quote = self._best_sentence_for_terms(
+            event_doc,
+            overlap_text.split(", "),
+            avoid_terms=UNSUITABLE_EVENT_TERMS,
+        )
         doctrine_citation = self._citation_for(doctrine_doc, doctrine_quote)
         event_citation = self._citation_for(event_doc, event_quote)
 
@@ -198,7 +233,11 @@ class InsightBuilder:
 
         term_to_docs: dict[str, set[str]] = defaultdict(set)
         for doc in authority_docs:
-            terms = extract_keywords(doc.content, limit=30)
+            terms = extract_keywords(
+                doc.content,
+                limit=30,
+                extra_stopwords=COMMONALITY_STOPWORDS,
+            )
             for term in terms:
                 term_to_docs[term].add(doc.doc_id)
 
@@ -237,7 +276,11 @@ class InsightBuilder:
         candidate_sentence = ""
         candidate_doc: Document | None = None
         matched_action = ""
-        for doc in doctrine_docs:
+        prioritized_docs = sorted(
+            doctrine_docs,
+            key=lambda doc: 0 if doc.source_type == "general_authority_talk" else 1,
+        )
+        for doc in prioritized_docs:
             for sentence in split_sentences(doc.content):
                 sentence_terms = set(extract_keywords(sentence, limit=10))
                 for action_term in ACTION_TERMS:
@@ -258,7 +301,11 @@ class InsightBuilder:
         event_sentence = ""
         event_doc_ref: Document | None = None
         for doc in event_docs:
-            sentence = self._best_sentence_for_terms(doc, context_terms)
+            sentence = self._best_sentence_for_terms(
+                doc,
+                context_terms,
+                avoid_terms=UNSUITABLE_EVENT_TERMS,
+            )
             if sentence:
                 event_sentence = sentence
                 event_doc_ref = doc
@@ -304,7 +351,11 @@ class InsightBuilder:
         event_sentence = ""
         event_doc_ref: Document | None = None
         for doc in event_docs:
-            sentence = self._best_sentence_for_terms(doc, extract_keywords(doctrine_sentence, limit=8))
+            sentence = self._best_sentence_for_terms(
+                doc,
+                extract_keywords(doctrine_sentence, limit=8),
+                avoid_terms=UNSUITABLE_EVENT_TERMS,
+            )
             if sentence:
                 event_sentence = sentence
                 event_doc_ref = doc
@@ -354,7 +405,11 @@ class InsightBuilder:
         supporting_event_quote = ""
         supporting_event_doc: Document | None = None
         for doc in event_docs:
-            sentence = self._best_sentence_for_terms(doc, extract_keywords(testimony_quote, limit=8))
+            sentence = self._best_sentence_for_terms(
+                doc,
+                extract_keywords(testimony_quote, limit=8),
+                avoid_terms=UNSUITABLE_EVENT_TERMS,
+            )
             if sentence:
                 supporting_event_quote = sentence
                 supporting_event_doc = doc
@@ -382,13 +437,20 @@ class InsightBuilder:
             )
         ]
 
-    def _best_sentence_for_terms(self, doc: Document, terms: list[str]) -> str:
+    def _best_sentence_for_terms(
+        self,
+        doc: Document,
+        terms: list[str],
+        avoid_terms: set[str] | None = None,
+    ) -> str:
         if not terms:
             return ""
         best_sentence = ""
         best_score = 0
         term_set = set(terms)
         for sentence in split_sentences(doc.content):
+            if avoid_terms and any(term in sentence.lower() for term in avoid_terms):
+                continue
             sentence_terms = set(extract_keywords(sentence, limit=12))
             score = len(term_set.intersection(sentence_terms))
             if score > best_score:

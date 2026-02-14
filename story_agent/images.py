@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import Any
 
 import requests
+from bs4 import BeautifulSoup
 
 from .models import ImageAsset, Insight
 
@@ -23,7 +24,17 @@ NON_PHOTO_OR_AI_MARKERS = {
     "render",
     "vector",
     "cartoon",
+    "engraving",
+    "book cover",
+    "title page",
+    "scan",
+    "pdf",
+    "djvu",
+    "icon",
+    "logo",
 }
+
+SUPPORTED_PHOTO_EXTENSIONS = (".jpg", ".jpeg", ".png", ".webp", ".tif", ".tiff")
 
 CATEGORY_FALLBACK_QUERIES = {
     "prophetic_signal": [
@@ -120,20 +131,32 @@ class WikimediaImageFinder:
         image_url = info.get("url")
         if not image_url:
             return None
+        title = page.get("title", "Wikimedia image")
+        if not self._is_supported_photo_file(title=title, image_url=image_url):
+            return ImageAsset(
+                query=query,
+                image_url=image_url,
+                page_url=page.get("fullurl", image_url),
+                title=title,
+                attribution="Unknown author",
+                license_name="Unknown",
+                is_probably_non_ai=False,
+                rejection_reason="File extension suggests non-photo media type.",
+            )
 
         ext_meta = info.get("extmetadata", {})
         description = self._meta_value(ext_meta, "ImageDescription")
         artist = self._meta_value(ext_meta, "Artist")
         license_name = self._meta_value(ext_meta, "LicenseShortName") or "Unknown"
         categories = " ".join(category.get("title", "") for category in page.get("categories", []))
-        marker_text = " ".join([description, artist, categories, page.get("title", "")]).lower()
+        marker_text = " ".join([description, artist, categories, title]).lower()
         has_marker = any(marker in marker_text for marker in NON_PHOTO_OR_AI_MARKERS)
         if has_marker:
             return ImageAsset(
                 query=query,
                 image_url=image_url,
                 page_url=page.get("fullurl", image_url),
-                title=page.get("title", "Wikimedia image"),
+                title=title,
                 attribution=artist or "Unknown author",
                 license_name=license_name,
                 is_probably_non_ai=False,
@@ -144,7 +167,7 @@ class WikimediaImageFinder:
             query=query,
             image_url=image_url,
             page_url=page.get("fullurl", image_url),
-            title=page.get("title", "Wikimedia image"),
+            title=title,
             attribution=artist or "Unknown author",
             license_name=license_name,
             is_probably_non_ai=True,
@@ -154,8 +177,18 @@ class WikimediaImageFinder:
     def _meta_value(ext_meta: dict[str, Any], key: str) -> str:
         value = ext_meta.get(key, {})
         if isinstance(value, dict):
-            return str(value.get("value", "")).strip()
-        return str(value or "").strip()
+            raw_value = str(value.get("value", "")).strip()
+        else:
+            raw_value = str(value or "").strip()
+        return BeautifulSoup(raw_value, "html.parser").get_text(" ", strip=True)
+
+    @staticmethod
+    def _is_supported_photo_file(title: str, image_url: str) -> bool:
+        for value in (title.lower(), image_url.lower()):
+            base = value.split("?", 1)[0]
+            if any(base.endswith(ext) for ext in SUPPORTED_PHOTO_EXTENSIONS):
+                return True
+        return False
 
     @staticmethod
     def _build_query(insight: Insight) -> str:
