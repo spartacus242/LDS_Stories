@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "story-agent"
+version = "0.1.0"
+description = "LDS doctrine insights agent with citations and uncertainty handling"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "beautifulsoup4",
+  "python-dateutil",
+  "PyYAML",
+  "requests",
+]
+
+[project.scripts]
+story-agent = "story_agent.cli:main"

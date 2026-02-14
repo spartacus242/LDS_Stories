@@ -1,0 +1,116 @@
+{
+  "generated_at": "2026-02-14T02:37:12.480461+00:00",
+  "card_count": 3,
+  "warnings": [],
+  "cards": [
+    {
+      "category": "prophetic_signal",
+      "headline": "Prophetic Pattern Watch: Themes Now in the Headlines",
+      "story": "A doctrinal warning and a current event source share themes around voice. This can be a useful study signal, but it is not conclusive on its own.",
+      "action_step": "Study the cited warning in context, then pray about your personal preparation.",
+      "confidence": "medium",
+      "uncertainty_note": "This indicates possible alignment in themes, not proof of a fulfilled prophecy.",
+      "citations": [
+        {
+          "doc_id": "8a940b51d4f8855d",
+          "title": "Doctrine and Covenants 1",
+          "url": "https://www.churchofjesuschrist.org/study/scriptures/dc-testament/dc/1?lang=eng",
+          "quote": "4 And the voice of warning shall be unto all people, by the mouths of my disciples, whom I have chosen in these last days .",
+          "verification": "high"
+        },
+        {
+          "doc_id": "f7e4167c3daaf9ec",
+          "title": "Artificial intelligence - Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Artificial_intelligence",
+          "quote": "Face and voice recognition allow widespread surveillance .",
+          "verification": "high"
+        }
+      ],
+      "image": {
+        "query": "voice photograph",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/d/df/Walt_Disney_1946.JPG",
+        "page_url": "https://commons.wikimedia.org/wiki/File:Walt_Disney_1946.JPG",
+        "title": "File:Walt Disney 1946.JPG",
+        "attribution": "Boy Scouts of America",
+        "license_name": "Public domain",
+        "is_probably_non_ai": true,
+        "rejection_reason": null
+      }
+    },
+    {
+      "category": "authority_commonality",
+      "headline": "Shared Message from Apostolic Voices: Eternal, Father, Savior",
+      "story": "Across recent talks from the First Presidency and/or Quorum of the Twelve, the strongest repeated themes include eternal, father, savior.",
+      "action_step": "Pick one shared theme and turn it into a family or personal goal this week.",
+      "confidence": "medium",
+      "uncertainty_note": "Theme overlap is heuristic and may miss nuance; read full talks for context.",
+      "citations": [
+        {
+          "doc_id": "16d4346ef69856b0",
+          "title": "Think Celestial!",
+          "url": "https://www.churchofjesuschrist.org/study/general-conference/2023/10/51nelson?lang=eng",
+          "quote": "I have learned that Heavenly Father\u2019s plan for us is fabulous , that what we do in this life really matters, and that the Savior\u2019s Atonement is what makes our Father\u2019s plan possible.",
+          "verification": "high"
+        },
+        {
+          "doc_id": "d6660d2f3b5b2efc",
+          "title": "We Will Prove Them Herewith",
+          "url": "https://www.churchofjesuschrist.org/study/general-conference/2020/10/12bednar?lang=eng",
+          "quote": "I promise that as we both prepare and press forward with faith in the Savior, we all can receive the same grade on the ultimate examination of mortality: \u201cWell done, thou good and faithful servant: thou hast been faithful over a few things, I will...",
+          "verification": "high"
+        },
+        {
+          "doc_id": "cc627cc392c4e214",
+          "title": "Love Your Enemies",
+          "url": "https://www.churchofjesuschrist.org/study/general-conference/2020/10/17oaks?lang=eng",
+          "quote": "Fortunately, we have the Savior\u2019s own example of how to balance His eternal laws with the practicalities of man-made laws.",
+          "verification": "high"
+        }
+      ],
+      "image": {
+        "query": "church congregation photograph",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/f/fa/Ruabon_Congregation_Church_-_geograph.org.uk_-_730389.jpg",
+        "page_url": "https://commons.wikimedia.org/wiki/File:Ruabon_Congregation_Church_-_geograph.org.uk_-_730389.jpg",
+        "title": "File:Ruabon Congregation Church - geograph.org.uk - 730389.jpg",
+        "attribution": "Eirian Evans",
+        "license_name": "CC BY-SA 2.0",
+        "is_probably_non_ai": true,
+        "rejection_reason": null
+      }
+    },
+    {
+      "category": "life_application",
+      "headline": "From Teaching to Tuesday: One Action You Can Take Today",
+      "story": "A repeated doctrinal pattern points to practical discipleship: I pray that the Spirit will carry my message into your hearts today.",
+      "action_step": "Set aside 10 minutes daily for prayer with a specific question in mind.",
+      "confidence": "medium",
+      "uncertainty_note": "Application guidance is a suggested interpretation and should be personalized.",
+      "citations": [
+        {
+          "doc_id": "16d4346ef69856b0",
+          "title": "Think Celestial!",
+          "url": "https://www.churchofjesuschrist.org/study/general-conference/2023/10/51nelson?lang=eng",
+          "quote": "I pray that the Spirit will carry my message into your hearts today.",
+          "verification": "high"
+        },
+        {
+          "doc_id": "f7e4167c3daaf9ec",
+          "title": "Artificial intelligence - Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Artificial_intelligence",
+          "quote": "However, many AI applications are not perceived as AI: \"A lot of cutting edge AI has filtered into general applications, often without being called AI because once something becomes useful enough and common enough it's not labeled AI anymore .\" [ 2 ] [ 3...",
+          "verification": "high"
+        }
+      ],
+      "image": {
+        "query": "family prayer photograph",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/3/38/Candlelight_Prayer_Ritual%2C_edited.jpg",
+        "page_url": "https://commons.wikimedia.org/wiki/File:Candlelight_Prayer_Ritual,_edited.jpg",
+        "title": "File:Candlelight Prayer Ritual, edited.jpg",
+        "attribution": "Muhammad Amdad Hossain , edited by W.carter",
+        "license_name": "CC BY-SA 4.0",
+        "is_probably_non_ai": true,
+        "rejection_reason": null
+      }
+    }
+  ]
+}

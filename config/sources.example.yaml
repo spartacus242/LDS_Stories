@@ -1,0 +1,51 @@
+sources:
+  - name: Doctrine and Covenants 1
+    url: https://www.churchofjesuschrist.org/study/scriptures/dc-testament/dc/1?lang=eng
+    source_type: scripture
+    tags: [warning, preparation, latter-days]
+
+  - name: Matthew 24
+    url: https://www.churchofjesuschrist.org/study/scriptures/nt/matt/24?lang=eng
+    source_type: scripture
+    tags: [signs, prophecy, preparation]
+
+  - name: Think Celestial (Russell M. Nelson, Oct 2023)
+    url: https://www.churchofjesuschrist.org/study/general-conference/2023/10/51nelson?lang=eng
+    source_type: general_authority_talk
+    author: Russell M. Nelson
+    authority_office: First Presidency
+    tags: [discipleship, covenant]
+
+  - name: But We Heeded Them Not (David A. Bednar, Oct 2020)
+    url: https://www.churchofjesuschrist.org/study/general-conference/2020/10/12bednar?lang=eng
+    source_type: general_authority_talk
+    author: David A. Bednar
+    authority_office: Quorum of the Twelve
+    tags: [warning, revelation]
+
+  - name: Be of Good Cheer (Dallin H. Oaks, Oct 2020)
+    url: https://www.churchofjesuschrist.org/study/general-conference/2020/10/17oaks?lang=eng
+    source_type: general_authority_talk
+    author: Dallin H. Oaks
+    authority_office: First Presidency
+    tags: [hope, discipleship]
+
+  - name: Wikipedia Current Events Portal
+    url: https://en.wikipedia.org/wiki/Portal:Current_events
+    source_type: current_event
+    tags: [news]
+
+  - name: Wikipedia - February 14 Historical Events
+    url: https://en.wikipedia.org/wiki/February_14
+    source_type: historical_world_event
+    tags: [history]
+
+  - name: Our World in Data - Technological Change
+    url: https://ourworldindata.org/technological-change
+    source_type: societal_trend
+    tags: [society, economy, long-term]
+
+  - name: Wikipedia - Artificial Intelligence
+    url: https://en.wikipedia.org/wiki/Artificial_intelligence
+    source_type: tech_advance
+    tags: [technology, ai]
