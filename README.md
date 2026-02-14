@@ -65,6 +65,22 @@ Skip image lookup if desired:
 python -m story_agent --config config/sources.example.yaml --no-images
 ```
 
+By default, each run also updates tracked review files in:
+
+```text
+development_outputs/latest/
+```
+
+You can change or disable this behavior:
+
+```bash
+# Custom tracked dev output path
+python -m story_agent --dev-output-dir development_outputs/my-review
+
+# Disable tracked dev artifacts for one run
+python -m story_agent --no-dev-output
+```
+
 ## Instagram export bundle
 
 Each run now also writes a social-ready export bundle:
@@ -77,6 +93,14 @@ Each run now also writes a social-ready export bundle:
   - references caption file, image metadata, citations, and publish order
 - `output/instagram_<timestamp>/hashtags_bank.txt`
   - de-duplicated hashtag bank from all generated cards
+
+In addition, the latest development snapshot is stored in git-trackable paths:
+
+- `development_outputs/latest/insights_latest.json`
+- `development_outputs/latest/insights_latest.md`
+- `development_outputs/latest/instagram/captions/*.txt`
+- `development_outputs/latest/instagram/scheduler_square_cards.json`
+- `development_outputs/latest/instagram/hashtags_bank.txt`
 
 ## Configure sources
 

@@ -26,6 +26,7 @@ class DoctrineInsightsAgent:
         output_dir: str | Path,
         max_insights: int = 5,
         attach_images: bool = True,
+        dev_output_dir: str | Path | None = "development_outputs/latest",
     ) -> dict[str, Any]:
         warnings: list[str] = []
         config_path = Path(config_path)
@@ -49,7 +50,12 @@ class DoctrineInsightsAgent:
             except Exception as exc:  # noqa: BLE001
                 warnings.append(f"Image pipeline failed: {exc}")
 
-        output_files = self.formatter.write(output_dir=output_dir, insights=insights, warnings=warnings)
+        output_files = self.formatter.write(
+            output_dir=output_dir,
+            insights=insights,
+            warnings=warnings,
+            dev_output_dir=dev_output_dir,
+        )
         return {
             "sources_loaded": len(sources),
             "documents_fetched": len(documents),

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import re
+import shutil
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -101,7 +102,13 @@ class InstagramFormatter:
         lines.extend(["", "Hashtags:", hashtags])
         return "\n".join(lines)
 
-    def write(self, output_dir: str | Path, insights: list[Insight], warnings: list[str]) -> dict[str, str]:
+    def write(
+        self,
+        output_dir: str | Path,
+        insights: list[Insight],
+        warnings: list[str],
+        dev_output_dir: str | Path | None = None,
+    ) -> dict[str, str]:
         output_path = Path(output_dir)
         output_path.mkdir(parents=True, exist_ok=True)
         timestamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
@@ -149,20 +156,31 @@ class InstagramFormatter:
             for warning in warnings:
                 markdown_blocks.append(f"- {warning}")
             markdown_blocks.append("")
-        md_path.write_text("\n".join(markdown_blocks), encoding="utf-8")
+        markdown_text = "\n".join(markdown_blocks)
+        md_path.write_text(markdown_text, encoding="utf-8")
 
         instagram_paths = self._write_instagram_export(
             output_path=output_path,
             insights=insights,
             timestamp=timestamp,
         )
-        return {
+        output_files = {
             "json": str(json_path),
             "markdown": str(md_path),
             "instagram_export_dir": instagram_paths["instagram_export_dir"],
             "instagram_scheduler_json": instagram_paths["instagram_scheduler_json"],
             "instagram_hashtag_bank_txt": instagram_paths["instagram_hashtag_bank_txt"],
         }
+        if dev_output_dir is not None:
+            dev_paths = self._write_development_bundle(
+                dev_output_dir=Path(dev_output_dir),
+                payload=payload,
+                markdown_text=markdown_text,
+                insights=insights,
+                timestamp=timestamp,
+            )
+            output_files.update(dev_paths)
+        return output_files
 
     def _write_instagram_export(
         self,
@@ -171,6 +189,18 @@ class InstagramFormatter:
         timestamp: str,
     ) -> dict[str, str]:
         export_dir = output_path / f"instagram_{timestamp}"
+        return self._write_instagram_export_to_dir(
+            export_dir=export_dir,
+            insights=insights,
+            post_id_prefix=timestamp,
+        )
+
+    def _write_instagram_export_to_dir(
+        self,
+        export_dir: Path,
+        insights: list[Insight],
+        post_id_prefix: str,
+    ) -> dict[str, str]:
         captions_dir = export_dir / "captions"
         captions_dir.mkdir(parents=True, exist_ok=True)
 
@@ -188,7 +218,7 @@ class InstagramFormatter:
 
             scheduler_cards.append(
                 {
-                    "post_id": f"{timestamp}-{index:02d}",
+                    "post_id": f"{post_id_prefix}-{index:02d}",
                     "publish_order": index,
                     "channel": "instagram",
                     "post_type": "feed_square",
@@ -240,6 +270,41 @@ class InstagramFormatter:
             "instagram_export_dir": str(export_dir),
             "instagram_scheduler_json": str(scheduler_path),
             "instagram_hashtag_bank_txt": str(hashtag_path),
+        }
+
+    def _write_development_bundle(
+        self,
+        dev_output_dir: Path,
+        payload: dict[str, Any],
+        markdown_text: str,
+        insights: list[Insight],
+        timestamp: str,
+    ) -> dict[str, str]:
+        dev_output_dir.mkdir(parents=True, exist_ok=True)
+
+        dev_json_path = dev_output_dir / "insights_latest.json"
+        dev_json_path.write_text(json.dumps(payload, indent=2, ensure_ascii=True), encoding="utf-8")
+
+        dev_md_path = dev_output_dir / "insights_latest.md"
+        dev_md_path.write_text(markdown_text, encoding="utf-8")
+
+        dev_instagram_dir = dev_output_dir / "instagram"
+        if dev_instagram_dir.exists():
+            shutil.rmtree(dev_instagram_dir)
+        dev_instagram_paths = self._write_instagram_export_to_dir(
+            export_dir=dev_instagram_dir,
+            insights=insights,
+            post_id_prefix=f"latest-{timestamp}",
+        )
+
+        return {
+            "dev_json": str(dev_json_path),
+            "dev_markdown": str(dev_md_path),
+            "dev_instagram_export_dir": str(dev_instagram_dir),
+            "dev_instagram_scheduler_json": dev_instagram_paths["instagram_scheduler_json"],
+            "dev_instagram_hashtag_bank_txt": dev_instagram_paths[
+                "instagram_hashtag_bank_txt"
+            ],
         }
 
     @staticmethod

@@ -36,6 +36,16 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Skip image lookup step.",
     )
+    parser.add_argument(
+        "--dev-output-dir",
+        default="development_outputs/latest",
+        help="Tracked development output directory for latest review artifacts.",
+    )
+    parser.add_argument(
+        "--no-dev-output",
+        action="store_true",
+        help="Disable writing tracked development output artifacts.",
+    )
     return parser
 
 
@@ -50,6 +60,7 @@ def main() -> int:
             output_dir=Path(args.output_dir),
             max_insights=args.max_insights,
             attach_images=not args.no_images,
+            dev_output_dir=None if args.no_dev_output else Path(args.dev_output_dir),
         )
     finally:
         agent.close()

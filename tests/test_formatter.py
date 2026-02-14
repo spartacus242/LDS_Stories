@@ -72,6 +72,35 @@ class InstagramFormatterTests(unittest.TestCase):
             self.assertEqual(scheduler["cards"][0]["canvas"]["width"], 1080)
             self.assertEqual(scheduler["cards"][0]["canvas"]["height"], 1080)
 
+    def test_write_creates_stable_dev_output_bundle(self) -> None:
+        formatter = InstagramFormatter()
+        insight = sample_insight()
+        with tempfile.TemporaryDirectory() as temp_dir:
+            dev_dir = Path(temp_dir) / "development_outputs" / "latest"
+            paths = formatter.write(
+                output_dir=temp_dir,
+                insights=[insight],
+                warnings=[],
+                dev_output_dir=dev_dir,
+            )
+
+            self.assertIn("dev_json", paths)
+            self.assertIn("dev_markdown", paths)
+            self.assertIn("dev_instagram_export_dir", paths)
+            self.assertIn("dev_instagram_scheduler_json", paths)
+            self.assertIn("dev_instagram_hashtag_bank_txt", paths)
+
+            self.assertTrue(Path(paths["dev_json"]).exists())
+            self.assertTrue(Path(paths["dev_markdown"]).exists())
+            self.assertTrue(Path(paths["dev_instagram_scheduler_json"]).exists())
+            self.assertTrue(Path(paths["dev_instagram_hashtag_bank_txt"]).exists())
+
+            dev_scheduler = json.loads(
+                Path(paths["dev_instagram_scheduler_json"]).read_text(encoding="utf-8")
+            )
+            self.assertEqual(dev_scheduler["platform"], "instagram")
+            self.assertEqual(dev_scheduler["cards"][0]["post_type"], "feed_square")
+
 
 if __name__ == "__main__":
     unittest.main()
