@@ -15,7 +15,7 @@ from .text_utils import normalize_text
 
 
 DEFAULT_HEADERS = {
-    "User-Agent": "LDSDoctrineInsightsAgent/1.0 (+https://example.invalid/contact)"
+    "User-Agent": "LDSDoctrineInsightsAgent/1.0 (https://github.com/spartacus242/LDS_Stories)"
 }
 
 

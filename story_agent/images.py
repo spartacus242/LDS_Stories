@@ -8,6 +8,7 @@ from .models import ImageAsset, Insight
 
 
 WIKIMEDIA_API = "https://commons.wikimedia.org/w/api.php"
+USER_AGENT = "LDSDoctrineInsightsAgent/1.0 (https://github.com/spartacus242/LDS_Stories)"
 NON_PHOTO_OR_AI_MARKERS = {
     "ai-generated",
     "ai generated",
@@ -65,9 +66,7 @@ class WikimediaImageFinder:
     def __init__(self, timeout_seconds: int = 20):
         self.timeout_seconds = timeout_seconds
         self.session = requests.Session()
-        self.session.headers.update(
-            {"User-Agent": "LDSDoctrineInsightsAgent/1.0 (+https://example.invalid/contact)"}
-        )
+        self.session.headers.update({"User-Agent": USER_AGENT})
 
     def assign_images(self, insights: list[Insight]) -> list[str]:
         warnings: list[str] = []
@@ -94,7 +93,8 @@ class WikimediaImageFinder:
         params = {
             "action": "query",
             "generator": "search",
-            "gsrsearch": f"{query} filetype:bitmap",
+            "gsrsearch": query,
+            "gsrnamespace": 6,
             "gsrlimit": 20,
             "prop": "imageinfo|categories|info",
             "iiprop": "url|extmetadata",
@@ -106,7 +106,7 @@ class WikimediaImageFinder:
         response.raise_for_status()
         payload = response.json()
         pages = payload.get("query", {}).get("pages", {})
-        for page in pages.values():
+        for page in sorted(pages.values(), key=lambda item: item.get("index", 10_000)):
             asset = self._to_asset(page=page, query=query)
             if asset and asset.is_probably_non_ai:
                 return asset
